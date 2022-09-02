@@ -12,16 +12,31 @@ from config import TOKEN
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
-# Странная переменная, для чего этооооооооооо?
-y = 0
+
 emojifile = open('emoji', 'r')
 phrasesfile = open('phrases', 'r')
 
-emoji = [emojifile]
-phrases = [phrasesfile]
+emojifile.readlines()
+phrasesfile.readlines()
 
+emoji = []
+phrases = []
+
+for line in phrasesfile:
+    phrases.append(line.split('#'))
+for line in emojifile:
+    emoji.append(line.split('#'))
 @dp.message_handler()
 async def get_message(message: types.Message):
+    line = 0
+    for phrase in phrases:
+        for p in phrase:
+            pos=message.find(p)
+            if pos > -1:
+                pos = pos + len(p)
+                message = message[:pos]+emoji[line] + message[pos+1:]
+        line = line + 1
+
     pass
 
 
