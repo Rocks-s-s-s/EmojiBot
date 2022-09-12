@@ -1,3 +1,5 @@
+import random
+
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.types import ContentType, KeyboardButton, ReplyKeyboardMarkup
@@ -17,9 +19,6 @@ dp = Dispatcher(bot)
 emojifile = open('emoji.txt', 'r')
 phrasesfile = open('phrases.txt', 'r')
 
-emojifile.readlines()
-phrasesfile.readlines()
-
 emoji = []
 phrases = []
 
@@ -27,16 +26,20 @@ for line in phrasesfile:
     phrases.append(line.split('#'))
 for line in emojifile:
     emoji.append(line.split('#'))
+
+
 @dp.message_handler()
 async def get_message(message: types.Message):
     line = 0
+    text = message.text
     for phrase in phrases:
         for p in phrase:
-            pos=message.find(p)
+            pos = text.find(p)
             if pos > -1:
                 pos = pos + len(p)
-                message = message[:pos]+emoji[line] + message[pos+1:]
+                text = text[:pos] + random.choice(emoji[line]) + text[pos + 1:]
         line = line + 1
+    await message.answer(emojize(text))
 
 
 if __name__ == '__main__':
