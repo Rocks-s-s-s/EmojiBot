@@ -5,16 +5,17 @@ from aiogram.utils import executor
 from aiogram.utils.emoji import emojize
 from config import TOKEN
 
-#TODO: 0. Обдумать как будет происходить процесс вставки смайла в текст.
-#TODO: 1. Считать файлы с данными, так, чтобы удобно было потом работать.
-#TODO: 2. Реализовать первый алгоритм, который вставляет после известной фразы смайл.
+#TODO: 0. +Обдумать как будет происходить процесс вставки смайла в текст.
+#TODO: 1. +Считать файлы с данными, так, чтобы удобно было потом работать.
+#TODO: 2. +Реализовать первый алгоритм, который вставляет после известной фразы смайл.
 #TODO: 3. Добавить на каждую фразу по нескольку смайлов (пока у нас по одному на каждую).
+#TODO: 4. Реализовать второй алгоритм, который заменяет фразу на смайл
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-emojifile = open('emoji', 'r')
-phrasesfile = open('phrases', 'r')
+emojifile = open('emoji.txt', 'r')
+phrasesfile = open('phrases.txt', 'r')
 
 emojifile.readlines()
 phrasesfile.readlines()
@@ -36,8 +37,6 @@ async def get_message(message: types.Message):
                 pos = pos + len(p)
                 message = message[:pos]+emoji[line] + message[pos+1:]
         line = line + 1
-
-    pass
 
 
 if __name__ == '__main__':
