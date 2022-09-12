@@ -27,11 +27,8 @@ for line in phrasesfile:
 for line in emojifile:
     emoji.append(line.split('#'))
 
-
-@dp.message_handler()
-async def get_message(message: types.Message):
+def emojizeText1(text):
     line = 0
-    text = message.text
     for phrase in phrases:
         for p in phrase:
             pos = text.find(p)
@@ -39,7 +36,15 @@ async def get_message(message: types.Message):
                 pos = pos + len(p)
                 text = text[:pos] + random.choice(emoji[line]) + text[pos + 1:]
         line = line + 1
-    await message.answer(emojize(text))
+    return emojize(text)
+
+def emojizeText2(text):
+    # TODO Реализация функции
+    pass
+
+@dp.message_handler()
+async def get_message(message: types.Message):
+    await message.answer(emojizeText1(message.text))
 
 
 if __name__ == '__main__':
