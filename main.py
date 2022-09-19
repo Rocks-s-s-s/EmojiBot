@@ -23,9 +23,9 @@ emoji = []
 phrases = []
 
 for line in phrasesfile:
-    phrases.append(line.split('#'))
+    phrases.append(line.strip().split('#'))
 for line in emojifile:
-    emoji.append(line.split('#'))
+    emoji.append(line.strip().split('#'))
 
 def emojizeText1(text):
     line = 0
@@ -39,12 +39,19 @@ def emojizeText1(text):
     return emojize(text)
 
 def emojizeText2(text):
-    # TODO Реализация функции
-    pass
+    line = 0
+    for phrase in phrases:
+        for p in phrase:
+            pos = text.find(p)
+            if pos > -1:
+                text = text[:pos] + random.choice(emoji[line]) + text[pos + len(p):]
+        line = line + 1
+    return emojize(text)
+
 
 @dp.message_handler()
 async def get_message(message: types.Message):
-    await message.answer(emojizeText1(message.text))
+    await message.answer(emojizeText2(message.text))
 
 
 if __name__ == '__main__':
