@@ -26,11 +26,14 @@ type2Button = types.InlineKeyboardButton(text=emojize('hi, world! ➝ :wave:, wo
                                          callback_data='type2Button_click')
 typeKeyboard.add(type1Button, type2Button)
 
+
 emojifile = open('emoji.txt', 'r')
 phrasesfile = open('phrases.txt', 'r')
 
+
 emoji = []
 phrases = []
+
 
 for line in phrasesfile:
     phrases.append(line.strip().split('#'))
